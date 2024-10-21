@@ -6,7 +6,7 @@ import jakarta.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Author {
 
-    @XmlAttribute
+    @XmlElement(name = "id")
     private Long authorId;
 
     @XmlElement(name = "firstname")
