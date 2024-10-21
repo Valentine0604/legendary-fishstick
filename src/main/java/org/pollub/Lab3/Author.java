@@ -1,4 +1,4 @@
-package org.pollub;
+package org.pollub.Lab3;
 
 import jakarta.xml.bind.annotation.*;
 
@@ -6,7 +6,7 @@ import jakarta.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Author {
 
-    @XmlAttribute
+    @XmlElement(name = "id")
     private Long authorId;
 
     @XmlElement(name = "firstname")
@@ -46,5 +46,14 @@ public class Author {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "authorId=" + authorId +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                '}';
     }
 }
