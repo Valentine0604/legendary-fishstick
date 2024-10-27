@@ -1,165 +1,150 @@
-package org.pollub.Lab2;/*
-1.Utwórz strumień i wyszukaj w nim elementy poprzez zastosowanie filtra. - 2 p.
-2.Utwórz strumień i policz elementy powtarzające się i ile razy się powtarzają. - 2 p.
-3.Zastosuj mapowanie na strumieniu i utwórz nowy strumień powstały w jego wyniku. - 2 p.
-4.Zastosuj zapis i odczyt danych z pliku tekstowego. Wykorzystaj do tego strumienie z biblioteki java.io oraz metody oferowane przez bibliotekę java.nio. - 4 p.
-5.Zastosuj filtrowanie i sortowanie danych zapisywanych lub odczytywanych z pliku. - 4 p.
-*/
+package org.pollub.Lab2;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Main {
+    public static void main(String[] args) {
 
-    public static ArrayList<String> initList() {
-        ArrayList<String> list = new ArrayList<>();
-        list.add("Lava cake");
-        list.add("Apple pie");
-        list.add("Cupcake");
-        list.add("Chocolate cake");
-        list.add("Choclote brownie");
-        list.add("Lemon pie");
-        list.add("Apple crumble");
-        list.add("Cupcake");
-        list.add("Apple crumble");
-        return list;
+        System.out.println("Z1.");
+        zad1();
+
+        System.out.println("Z2.");
+        zad2();
+
+        System.out.println("Z3.");
+        zad3();
+
+        System.out.println("Z4.");
+        zad4();
+
+        System.out.println("Z5.");
+        zad5();
+
     }
 
-    //1.
-    public static void findInStream(ArrayList<String> list, String key) {
-        Stream<String> stream = list.stream()
-                .filter(s -> s.contains(key));
+    public static void zad1(){
+        ArrayList<String> desserts = new ArrayList<>();
+        desserts.add("fondant");
+        desserts.add("banana bread");
+        desserts.add("chocolate chip cookies");
+        desserts.add("milky way cake");
+        desserts.add("souffle");
+        desserts.add("banana split");
+        desserts.add("red velvet cake");
+        desserts.add("new york cheesecake");
 
-        stream.forEach(System.out::println);
+        System.out.println("***DESSERTS WITH BANANAS***");
+        desserts.stream().filter(element -> element.contains("banana")).forEach(System.out::println);
+
+        System.out.println();
+
+        System.out.println("***CAKES***");
+        desserts.stream().filter(element -> element.contains("cake")).forEach(System.out::println);
+
+        System.out.println();
+
+        System.out.println("***CHOCOLATE DESSERTS***");
+        desserts.stream().filter(element -> element.contains("chocolate")).forEach(System.out::println);
+    }
+    public static void zad2(){
+        List<String> fruits = Arrays.asList("apple", "banana", "grape", "orange", "banana", "orange", "apple", "banana", "watermelon", "raspberry", "watermelon");
+
+        Map<String, Long> fruitsCounter = fruits.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+
+        System.out.println("Fruits counter:");
+        fruitsCounter.forEach((fruit, count) -> System.out.println(fruit + ": " + count));
+
+        System.out.println();
+
+        System.out.println("Fruit counter > 1:");
+        fruitsCounter.forEach((fruit, count) -> {
+            if(count > 1) {
+                System.out.println(fruit + ": " + count);
+            }
+        });
+    }
+    public static void zad3(){
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        List<Integer> squaredNumbers = numbers.stream().map(n -> n * n).toList();
+
+        System.out.print("Numbers: " + numbers + "\n");
+        System.out.println("Squared numbers: " + squaredNumbers);
+    }
+    public static void zad4(){
+
+        System.out.println("I'm writing something to the file! Please wait! :)");
+        writeToFile();
+
+        System.out.println();
+
+        System.out.println("Here's the content of the written file:");
+        readFromFile("myFile.txt");
+
+    }
+    public static void zad5(){
+        writeToFile();
+        System.out.println("Here's the content of the written file before sorting:");
+        readFromFile("letters.txt");
+        System.out.println();
+
+        try{
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("letters.txt"));
+            List<String> lines = new ArrayList<>();
+            String line;
+
+            while((line = bufferedReader.readLine()) != null){
+                lines.add(line);
+            }
+            bufferedReader.close();
+
+            System.out.println("Here's the content of the written file after sorting:");
+            lines.stream().sorted().forEach(System.out::println);
+
+        } catch(FileNotFoundException e){
+            System.out.println("File not found");
+            System.err.println(e.getCause());
+        } catch(IOException e){
+            System.out.print("An error occurred during reading file: ");
+            System.err.println(e.getCause());System.out.println();
+        }
     }
 
+    public static void writeToFile(){
+        File file = new File("myFile.txt");
 
-    //2.
-    public static void countRepeatedElements(ArrayList<String> list) {
-        Map<String, Long> map = list.stream()
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        try{
+            FileWriter fileWriter = new FileWriter(file, true);
 
-        long countRepeated = map.values().stream()
-                .filter(v -> v > 1)
-                .count();
-
-        long countAll = map.values().stream()
-                .filter(v -> v > 1)
-                .mapToLong(Long::longValue)
-                .sum();
-
-        System.out.println("Mapa elementów z liczbą powtórzeń: ");
-        map.forEach((k, v) -> System.out.println(k + " - " + v));
-        System.out.println("Liczba elemntów powtórzonych:" + countRepeated);
-        System.out.println("Suma powtarzających się elementów: " + countAll);
-    }
-
-    //3.
-    public static void mapInStream(ArrayList<String> list) {
-        Stream<String> stream = list.stream()
-                .distinct()
-                .map(s -> s + " - " + s.length());
-        stream.forEach(System.out::println);
-    }
-
-    //4.
-
-    public static void writeFile(ArrayList<String> list, String filePath) {
-        Path path = Paths.get(filePath);
-        File file = new File(filePath);
-        try {
-            Files.write(path, list, StandardOpenOption.APPEND);
-            FileWriter fileWriter = new FileWriter(file,
-                    true);
-            try {
-                for (String s : list) {
-                    fileWriter.write(s + "\n");
-                }
-            } catch (IOException ex) {
-                System.err.println(ex.getCause());
+            for(int i=0; i<10; i++){
+                fileWriter.append("Line no.: " + (i+1) + "\n");
             }
             fileWriter.close();
-        } catch (IOException ex) {
-            System.err.println(ex.getCause());
+        } catch (IOException e) {
+            System.err.println(e.getCause());
         }
     }
 
+    public static void readFromFile(String filename){
+        try{
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
+            String line;
 
-    public static ArrayList<String> readFile(String filePath) {
-        try {
-            Path path = Paths.get(filePath);
-            List<String> lines = Files.readAllLines(path);
-            return new ArrayList<>(lines);
-        } catch (FileNotFoundException ex) {
-            System.out.println("Pliku nie odnaleziono!");
-            System.err.println(ex.getCause());
-            return null;
-        } catch (IOException ex) {
-            System.out.println("Błąd odczytu pliku spowodowany:");
-            System.err.println(ex.getCause());
-            return null;
-        }
-    }
+            while((line = bufferedReader.readLine()) != null){
+                System.out.println(line);
+            }
+            bufferedReader.close();
 
-
-
-    private static boolean deleteFile(String filePath) {
-        File file = new File(filePath);
-        return file.delete();
-    }
-
-    public static void saveReadAndSortFile(ArrayList<String> list, String filePath) {
-        ArrayList<String> readList = new ArrayList<>();
-        writeFile(list, filePath);
-        readList = readFile(filePath);
-        assert readList != null;
-        readList.sort((s1, s2) -> s1.length() - s2.length());
-        System.out.println("Zapisane i odczytane posortowane dane: ");
-        readList.forEach(System.out::println);
-    }
-
-    //5.
-    public static void filterAndSortFile(ArrayList<String> list, String filePath) {
-        ArrayList<String> readList = new ArrayList<>();
-        readFile(filePath);
-        readList = readFile(filePath);
-        assert readList != null;
-        readList.stream()
-                .filter(s -> s.contains("Zenon"))
-                .sorted((s1, s2) -> s1.length() - s2.length())
-                .forEach(System.out::println);
-    }
-
-
-    public static void main(String[] args) {
-        String filePath = "src/file.txt";
-        ArrayList<String> list = initList();
-        System.out.println("Zadanie 1:");
-        findInStream(list, "cake");
-        System.out.println("\nZadanie 2:");
-        countRepeatedElements(list);
-        System.out.println("\nZadanie 3:");
-        mapInStream(list);
-        System.out.println("\nZadanie 4:");
-        saveReadAndSortFile(list, filePath);
-        System.out.println("\nZadanie 5:");
-        filterAndSortFile(list, filePath);
-
-        if (deleteFile(filePath)) {
-            System.out.println("\nPlik został usunięty");
-        } else {
-            System.out.println("\nPlik nie został usunięty");
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+            System.err.println(e.getCause());
+        } catch (IOException e) {
+            System.out.print("An error occurred during reading file: ");
+            System.err.println(e.getCause());
         }
     }
 }
-
-
