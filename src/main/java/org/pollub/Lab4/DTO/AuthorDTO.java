@@ -1,5 +1,6 @@
-package org.pollub.Lab4;
+package org.pollub.Lab4.DTO;
 import lombok.*;
+import org.pollub.Lab4.Entity.Author;
 
 @Getter
 @Setter

@@ -1,11 +1,13 @@
-package org.pollub.Lab4;
+package org.pollub.Lab4.EntityBuilder;
 
 import lombok.Builder;
 import lombok.ToString;
 
 @Builder
 @ToString
-public class AuthorBuilder {
+public class ReaderBuilder {
+    private String username;
+    private String password;
     private String name;
     private String surname;
     private String email;
