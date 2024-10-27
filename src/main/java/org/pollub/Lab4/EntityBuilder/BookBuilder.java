@@ -1,4 +1,4 @@
-package org.pollub.Lab4;
+package org.pollub.Lab4.EntityBuilder;
 
 import lombok.Builder;
 import lombok.ToString;

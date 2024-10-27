@@ -1,4 +1,4 @@
-package org.pollub.Lab4;
+package org.pollub.Lab4.Entity;
 
 import lombok.*;
 
