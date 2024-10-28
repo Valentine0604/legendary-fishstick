@@ -4,19 +4,19 @@ import lombok.*;
 import org.pollub.Lab4.Entity.Reader;
 
 @Getter
-@Setter
-@AllArgsConstructor
+
 @ToString
 public class ReaderDTO {
     private final long id;
-    private String username;
-    private String password;
-    private String name;
-    private String surname;
-    private String email;
+    private final String username;
+    private final String password;
+    private final String name;
+    private final String surname;
+    private final String email;
 
     public ReaderDTO(Reader reader) {
         this.id = reader.getId();
+        this.username = reader.getUsername();
         this.password = reader.getPassword();
         this.name = reader.getName();
         this.surname = reader.getSurname();

@@ -4,15 +4,12 @@ import lombok.*;
 import org.pollub.Lab4.Entity.Author;
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class AuthorDTO {
-    private long id;
-    private String name;
-    private String surname;
-    private String email;
+    private final long id;
+    private final String name;
+    private final String surname;
+    private final String email;
 
     public AuthorDTO(Author author) {
         this.id = author.getId();

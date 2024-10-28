@@ -4,15 +4,13 @@ import lombok.*;
 import org.pollub.Lab4.Entity.Book;
 
 @Getter
-@Setter
-@AllArgsConstructor
 @ToString
 public class BookDTO {
     private final long id;
-    private String title;
-    private String author;
-    private int year;
-    private String publisher;
+    private final String title;
+    private final String author;
+    private final int year;
+    private final String publisher;
 
     public BookDTO(Book book) {
         this.id = book.getId();
