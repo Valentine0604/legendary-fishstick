@@ -72,5 +72,14 @@ public class Main {
         System.out.println("Employee DTO: " + employeeDTO);
         System.out.println("Genre DTO: " + genreDTO);
         System.out.println("Library DTO: " + libraryDTO);
+
+        Employee revertedEmployee = employeeDTO.toEntity();
+        Genre revertedGenre = genreDTO.toEntity();
+        Library revertedLibrary = libraryDTO.toEntity();
+
+        System.out.println("\n***ADDITIONAL ENTITIES REVERTED FROM DTOs***");
+        System.out.println("Reverted Employee Entity: " + revertedEmployee);
+        System.out.println("Reverted Genre Entity: " + revertedGenre);
+        System.out.println("Reverted Library Entity: " + revertedLibrary);
     }
 }

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 @Entity
 @Data
 @AllArgsConstructor
+@ToString
 public class Genre {
 
     private final long id;

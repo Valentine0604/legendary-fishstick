@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 @Entity
 @Data
 @AllArgsConstructor
+@ToString
 public class Employee {
 
     private final long id;

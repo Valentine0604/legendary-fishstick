@@ -7,16 +7,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "authors")
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
-@RequiredArgsConstructor
 @ToString
 public class Author {
     @Id
-    private long id;
+    private final long id;
     private String name;
     private String surname;
-    private final String email;
+    private String email;
 }

@@ -9,6 +9,7 @@ import java.util.List;
 @Entity
 @Data
 @AllArgsConstructor
+@ToString
 public class Library {
 
     private final long id;
