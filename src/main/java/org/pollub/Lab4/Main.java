@@ -1,91 +1,64 @@
-//Utwórz 3 klasy encyjne z wykorzystaniem adnotacji Lombok posiadające publiczne metody dostępowe, pola wymagane, konstruktory argumentowe. - 3 p.
-//Utwórz 3 klasy wg wzorca Budowniczy z wykorzystaniem biblioteki Lombok i pokaż ich instancje w użyciu. - 4 p.
-//Utwórz klika klas DTO, do których mapowane będą dane z instancji klas encyjnych i umożliwiające przywrócenie stanu instancji klasy encyjnej w momencie konieczności wycofania zmian. - 5 p.
-
 package org.pollub.Lab4;
 
+import org.pollub.Lab4.DTO.AuthorDTO;
+import org.pollub.Lab4.DTO.BookDTO;
 import org.pollub.Lab4.DTO.EmployeeDTO;
 import org.pollub.Lab4.DTO.GenreDTO;
 import org.pollub.Lab4.DTO.LibraryDTO;
+import org.pollub.Lab4.DTO.ReaderDTO;
+import org.pollub.Lab4.Entity.Author;
+import org.pollub.Lab4.Entity.Book;
 import org.pollub.Lab4.Entity.Employee;
 import org.pollub.Lab4.Entity.Genre;
 import org.pollub.Lab4.Entity.Library;
-import org.pollub.Lab4.EntityBuilder.*;
+import org.pollub.Lab4.Entity.Reader;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        // Creating entities
+        Author authorEntity = new Author(1L, "J.D", "Salinger", "jd@mail.com");
+        Book bookEntity = new Book(1L, "The Catcher in the Rye", "J.D. Salinger", 1951, "Little, Brown and Company");
+        Reader readerEntity = new Reader(1L, "Valentine", "Ewelina", "Valentine", "ewecia.s@gmail.com", "password123");
 
-        AuthorBuilder author = AuthorBuilder.builder().name("J.D").surname("Salinger").email("jd@mail.com").build();
-        BookBuilder book = BookBuilder.builder().author("J.D. Salinger").title("The Catcher in the rye").year(1951).publisher("Little, Brown and Company").build();
-        ReaderBuilder reader = ReaderBuilder.builder().username("Valentine").password("Password1234").name("Ewelina").surname("Valentine").email("ewecia.s@gmail.com").build();
+        System.out.println("***ENTITY CREATION***");
+        System.out.println("Author Entity: " + authorEntity);
+        System.out.println("Book Entity: " + bookEntity);
+        System.out.println("Reader Entity: " + readerEntity);
 
-        System.out.println(author);
-        System.out.println(book);
-        System.out.println(reader);
+        // Converting entities to DTOs
+        AuthorDTO authorDTO = new AuthorDTO(authorEntity);
+        BookDTO bookDTO = new BookDTO(bookEntity);
+        ReaderDTO readerDTO = new ReaderDTO(readerEntity);
 
-        EmployeeBuilder employee = EmployeeBuilder.builder()
-                .name("John Doe")
-                .address("New Street 2")
-                .phone("123456789")
-                .email("example@example.com")
-                .build();
+        System.out.println("\n***DTOs CREATED FROM ENTITIES***");
+        System.out.println("Author DTO: " + authorDTO);
+        System.out.println("Book DTO: " + bookDTO);
+        System.out.println("Reader DTO: " + readerDTO);
 
-        System.out.println("Employee created with builder: ");
-        System.out.println(employee);
+        // Demonstrating toEntity() method to revert DTOs back to entities
+        Author revertedAuthor = authorDTO.toEntity();
+        Book revertedBook = bookDTO.toEntity();
+        Reader revertedReader = readerDTO.toEntity();
 
-        GenreBuilder genre = GenreBuilder.builder()
-                .name("Fantasy")
-                .description("Fantasy books")
-                .build();
+        System.out.println("\n***ENTITIES REVERTED FROM DTOs***");
+        System.out.println("Reverted Author Entity: " + revertedAuthor);
+        System.out.println("Reverted Book Entity: " + revertedBook);
+        System.out.println("Reverted Reader Entity: " + revertedReader);
 
-        System.out.println("\nGenre created with builder: ");
-        System.out.println(genre);
+        // Additional DTO instances and entity mappings
+        Employee employeeEntity = new Employee(1, "Jan Kowalski", "ul. Główna 12", "123456789", "janek@example.com");
+        Genre genreEntity = new Genre(1, "Fantasy", "Fantasy books");
+        Library libraryEntity = new Library(1, "Library", "ul. Główna 12", List.of(employeeEntity));
 
-        LibraryBuilder library = LibraryBuilder.builder()
-                .name("Library")
-                .address("New Street 2")
-                .employees(List.of(employee))
-                .build();
+        EmployeeDTO employeeDTO = new EmployeeDTO(employeeEntity);
+        GenreDTO genreDTO = new GenreDTO(genreEntity);
+        LibraryDTO libraryDTO = new LibraryDTO(libraryEntity);
 
-        System.out.println("\nLibrary created with builder: ");
-        System.out.println(library);
-
-
-        //Zad 2
-        System.out.println("\n---------Zad 2---------");
-        Employee employee1 = new Employee(1, "Jan Kowalski", "ul. Główna 12", "123456789", "janek@example.com");
-
-
-        EmployeeDTO employeeDTO = new EmployeeDTO();
-        employeeDTO.setId(employee1.getId());
-        employeeDTO.setName(employee1.getName());
-        employeeDTO.setAddress(employee1.getAddress());
-        employeeDTO.setPhone(employee1.getPhone());
-        employeeDTO.setEmail(employee1.getEmail());
-
-        System.out.println("\nEmployee printed with DTO: ");
-        System.out.println(employeeDTO);
-
-        Genre genre1 = new Genre(1, "Fantasy", "Fantasy books");
-
-        GenreDTO genreDTO = new GenreDTO();
-        genreDTO.setName(genre1.getName());
-        genreDTO.setDescription(genre1.getDescription());
-
-        System.out.println("\nGenre printed with DTO: ");
-        System.out.println(genreDTO);
-
-        Library library1 = new Library(1, "Library", "ul. Główna 12", List.of(employee1));
-
-        LibraryDTO libraryDTO = new LibraryDTO();
-        libraryDTO.setName(library1.getName());
-        libraryDTO.setAddress(library1.getAddress());
-        libraryDTO.setEmployees(List.of(employeeDTO));
-
-        System.out.println("\nLibrary printed with DTO: ");
-        System.out.println(libraryDTO);
-
+        System.out.println("\n***ADDITIONAL ENTITY DTOs***");
+        System.out.println("Employee DTO: " + employeeDTO);
+        System.out.println("Genre DTO: " + genreDTO);
+        System.out.println("Library DTO: " + libraryDTO);
     }
 }

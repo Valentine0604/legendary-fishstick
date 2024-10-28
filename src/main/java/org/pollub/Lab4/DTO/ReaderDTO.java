@@ -5,10 +5,10 @@ import org.pollub.Lab4.Entity.Reader;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class ReaderDTO {
+    private final long id;
     private String username;
     private String password;
     private String name;
@@ -16,7 +16,7 @@ public class ReaderDTO {
     private String email;
 
     public ReaderDTO(Reader reader) {
-        this.username = reader.getUsername();
+        this.id = reader.getId();
         this.password = reader.getPassword();
         this.name = reader.getName();
         this.surname = reader.getSurname();
@@ -24,6 +24,6 @@ public class ReaderDTO {
     }
 
     public Reader toEntity() {
-        return new Reader(this.username, this.password, this.name, this.surname, this.email);
+        return new Reader(this.id,this.username, this.password, this.name, this.surname, this.email);
     }
 }
